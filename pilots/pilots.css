@@ -2,14 +2,29 @@
     background-color: lightgray;
 }
 
-.pilot {
-    padding: 5px 10px;
-    margin: 5px 0;
+.pilot div {
+    padding: 10px 5px;
+    margin: 10px 0px;
+    box-shadow: 2px 1px rgba(0, 0, 0, 0.3);
 }
 
-.describer {
+.describer div {
     margin: 10px 10px;
-    padding: 20px;
+    padding: 0px;
+}
+
+.describer p {
+    font-size: 14px;
+    color: black;
+}
+
+.describer a {
+    text-decoration: none;
+    color: black;
+}
+
+.describer a:hover {
+    text-decoration: underline;
 }
 
 .content-pilots img {
@@ -19,4 +34,5 @@
     display: block;
     float: left;
     box-shadow: 2px 1px rgba(0, 0, 0, 0.3);
+    margin: 10px;
 }
