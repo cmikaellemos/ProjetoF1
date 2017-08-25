@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../index/index.css">
+    <link rel="stylesheet" type="text/css" href="circuits.css">
+    <title>Circuitos - Fórmula 1</title>
+</head>
+<body>
+    <div class="header">
+    </div>
+    <nav class="menu">
+        <ul>
+            <li><a href="../index/index.html">Início</a></li>
+            <li><a href="../pilots/pilots.html">Pilotos</a></li>
+            <li><a href="../constructors/constructors.html">Montadoras</a></li>
+            <li><a href="#">Circuitos</a></li>
+            <li><a href="#">Temporadas</a></li>
+        </ul>
+    </nav>
+    <div class="content-circuits">
+        <div id="circuit">
+            <div id="map"></div>
+        </div>
+    </div>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi8tHVwQDVQ5Z7QgNGxicjj9FbDIGUT5I&callback=initMap">
+    </script>
+    <script>
+        var map;
+        
+        function initialize() {
+           var latlng = new google.maps.LatLng(-18.8800397, -47.05878999999999);
+        
+           var options = {
+               zoom: 5,
+               center: latlng,
+               mapTypeId: google.maps.MapTypeId.ROADMAP
+           };
+        
+           map = new google.maps.Map(document.getElementById("map"), options);
+       }
+        
+       initialize();
+    
+        function carregarPontos() {
+ 
+            $.getJSON("http://ergast.com/api/f1/circuits.json?limit=300", function(pontos) {
+                console.log(pontos);
+                $.each(pontos.MRData.CircuitTable.Circuits, function(index, ponto) {
+        
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(ponto.Location.lat, ponto.Location.long),
+                        title: ponto.circuitName + ", " + ponto.Location.locality + " - " + ponto.Location.country,
+
+                        map: map
+                    });
+        
+                });
+        
+            });
+ 
+        }
+ 
+        carregarPontos();
+
+    </script>
+</body>
+<footer class="footer">
+    <span>Desenvolvido por Mikael Lemos</span>
+</footer>
+</html>

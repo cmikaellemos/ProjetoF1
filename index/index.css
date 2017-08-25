@@ -3,9 +3,11 @@ body {
 }
 
 .header{
-    background-color: lightgray;
-    text-shadow: 1px 1px 1px  black;
-    padding: 50px;
+    background-color: white;
+    background-image: url(../src/images/logo-formula-1.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 200px;
     text-align: center;
 }
 
@@ -41,7 +43,7 @@ body {
 }
 
 .content div {
-    background-color: lightgray;
+    background-color: white;
     display: block;
     position: relative;
     box-shadow: 2px 1px rgba(0, 0, 0, 0.3);
