@@ -31,10 +31,10 @@
         var map;
         
         function initialize() {
-           var latlng = new google.maps.LatLng(-18.8800397, -47.05878999999999);
+           var latlng = new google.maps.LatLng(0, 0);
         
            var options = {
-               zoom: 5,
+               zoom: 2,
                center: latlng,
                mapTypeId: google.maps.MapTypeId.ROADMAP
            };
@@ -56,7 +56,16 @@
 
                         map: map
                     });
-        
+
+                    var contentString = ponto.circuitName + ", " + ponto.Location.locality + " - " + ponto.Location.country;
+
+                    var infowindow = new google.maps.InfoWindow({
+                        content: contentString
+                    });
+
+                    marker.addListener('click', function() {
+                        infowindow.open(map, marker);
+                    });
                 });
         
             });
