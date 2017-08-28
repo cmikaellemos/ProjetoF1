@@ -16,7 +16,7 @@
             <li><a href="../pilots/pilots.html">Pilotos</a></li>
             <li><a href="../constructors/constructors.html">Montadoras</a></li>
             <li><a href="#">Circuitos</a></li>
-            <li><a href="#">Temporadas</a></li>
+            <li><a href="../seasons/seasons.html">Temporadas</a></li>
         </ul>
     </nav>
     <div class="content-circuits">
@@ -57,7 +57,8 @@
                         map: map
                     });
 
-                    var contentString = ponto.circuitName + ", " + ponto.Location.locality + " - " + ponto.Location.country;
+                    var contentString = ponto.circuitName + ", " + ponto.Location.locality + " - " + ponto.Location.country + '<br>' +
+                    '<a href=#> test </a>';
 
                     var infowindow = new google.maps.InfoWindow({
                         content: contentString
