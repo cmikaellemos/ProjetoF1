@@ -17,10 +17,10 @@ var pontos;
 
 function carregarPontos() {
     
-    const ponto = pontos.MRData.CircuitTable.Circuits;
+    const ponto = pontos.MRData.RaceTable.Races;
 
-    for (var i = 0; i < pontos.MRData.total; i++) {
-        loadMarker(ponto[i]);
+    for (var i = 0; i < 20; i++) {
+        loadMarker(ponto[i].Circuit);
     }
     
 }
@@ -41,15 +41,15 @@ function loadMarker(ponto){
     });
     
     marker.addListener('click', function() {
+        infowindow.close();
         infowindow.open(map, marker);
     });
 }
 
-fetch("http://ergast.com/api/f1/circuits.json?limit=300")
+fetch("http://ergast.com/api/f1/current.json?limit=20")
 .then(response => response.json()) // retorna uma promise
 .then(result => {
     pontos = result;
-    console.log(pontos);
     initialize();
     carregarPontos();
 })
