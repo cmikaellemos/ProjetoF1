@@ -1,12 +1,11 @@
 var races;
-var round;
+var round = [];
 
 var recent = document.querySelector(".recents");
 var next = document.querySelector(".nexts");
 
 var total;
 loadTotal();
-console.log(recent);
 
 function loadTotal() {
     fetch("http://ergast.com/api/f1/current.json")
@@ -34,41 +33,36 @@ function loadData(value) {
         });
 }
 
-function loadUniqueRace(year, roundNumber) {
-    fetch(`http://ergast.com/api/f1/${year}/${roundNumber}/results.json?limit=30`)
-    .then(response => response.json()) // retorna uma promise
-    .then(result => {
-        round = result;
-    })
-    .catch(err => {
-        // trata se alguma das promises falhar
-        console.error('Failed retrieving information', err);
-    });
-}
-
 function sleep (time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
 function createHTML() {
     const now = new Date();
+    contentRecent = [];
     for(var i = 0; i < total; i++) {
         let race = races.MRData.RaceTable.Races[i];
         let raceDate = new Date(race.date + ' ' + race.time );
         if(  raceDate <= now) {
-            loadUniqueRace(raceDate.getFullYear(), race.round);
-            sleep(2000).then(() => {
-                // Do something after the sleep!
-                console.log(races.MRData.RaceTable.Races[i]);
-                console.log(round);
-                let contentRecent = `<li> 
+            fetch(`http://ergast.com/api/f1/${raceDate.getFullYear()}/${race.round}/results.json?limit=30`)
+            .then(response => response.json()) // retorna uma promise
+            .then(result => {
+                console.log(result);
+                contentRecent[race.round] = `<li> 
                 <p> <strong>Rodada:</strong> ${race.round}, Dia ${raceDate.getDate()}/${raceDate.getMonth() + 1} 
                 às ${raceDate.getHours()}:00 horas, horário de Brasília <p> 
                 <p><strong>Local:</strong> ${race.Circuit.circuitName}, ${race.Circuit.Location.locality} - ${race.Circuit.Location.country} </p>
-                <p><strong>Vencedor: </strong> ${round.MRData.RaceTable.Races[0].Results.Driver.givenName}</p>
+                <p><strong>Vencedor: </strong> ${result.MRData.RaceTable.Races["0"].Results["0"].Driver.givenName} ${result.MRData.RaceTable.Races["0"].Results["0"].Driver.familyName} </p>
+                <p><strong>Tempo:</strong> ${result.MRData.RaceTable.Races["0"].Results["0"].Time.time}       <p><strong>Melhor volta: </strong> ${result.MRData.RaceTable.Races["0"].Results["0"].FastestLap.Time.time}</p>
                 </li>`;
-                recent.insertAdjacentHTML('beforeend', contentRecent);
             })
+            /* .then(() => {
+                recent.insertAdjacentHTML('beforeend', contentRecent[race.round]);
+            }) */
+            .catch(err => {
+                // trata se alguma das promises falhar
+                console.error('Failed retrieving information', err);
+            });               
         }
         if(  raceDate > now) {
             console.log(races.MRData.RaceTable.Races[i]);
@@ -78,4 +72,9 @@ function createHTML() {
             next.insertAdjacentHTML('beforeend', contentNext);
         }
     }
+    sleep(5000).then(() => {
+        for(var i = 1; i < contentRecent.length; i++){
+            recent.insertAdjacentHTML('beforeend', contentRecent[i]);
+        }
+    });
 }
